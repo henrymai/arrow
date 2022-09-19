@@ -138,6 +138,7 @@ public class FixedSizeBinaryVector extends BaseFixedWidthVector {
     }
     holder.isSet = 1;
     holder.buffer = valueBuffer.slice((long) index * byteWidth, byteWidth);
+    holder.byteWidth = byteWidth;
   }
 
   /**
