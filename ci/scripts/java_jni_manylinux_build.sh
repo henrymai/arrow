@@ -97,7 +97,7 @@ cmake \
   -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET} \
   -GNinja \
   ${arrow_dir}/cpp
-ninja install
+ninja -j4 install
 
 if [ "${ARROW_BUILD_TESTS}" = "ON" ]; then
   # MinIO is required

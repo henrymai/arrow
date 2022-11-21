@@ -44,14 +44,13 @@ fi
  echo "Name-Real: Build"; \
  echo "Name-Email: build@example.com"; \
  echo "%no-protection") | \
-  gpg --full-generate-key --batch
+  gpg --gen-key --batch
 
 # build the entire project
 mvn clean \
     install \
     assembly:single \
-    source:jar \
-    javadoc:jar \
+    -T8 \
     -Papache-release \
     -Parrow-c-data \
     -Parrow-jni \
