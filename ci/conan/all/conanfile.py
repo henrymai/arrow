@@ -312,7 +312,7 @@ class ArrowConan(ConanFile):
         if self._with_glog():
             self.requires("glog/0.6.0")
         if self.options.get_safe("with_gcs"):
-            self.requires("google-cloud-cpp/1.40.1")
+            self.requires("google-cloud-cpp/2.4.0")
         if self._with_grpc():
             self.requires("grpc/1.48.0")
         if self.options.with_json:
@@ -328,7 +328,7 @@ class ArrowConan(ConanFile):
         if self.options.get_safe("with_opentelemetry"):
             self.requires("opentelemetry-cpp/1.4.1")
         if self.options.with_s3:
-            self.requires("aws-sdk-cpp/1.9.234")
+            self.requires("aws-sdk-cpp/1.10.11")
         if self.options.with_brotli:
             self.requires("brotli/1.0.9")
         if self.options.with_bz2:
