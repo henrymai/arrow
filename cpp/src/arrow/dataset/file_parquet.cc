@@ -19,6 +19,7 @@
 
 #include <memory>
 #include <mutex>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -83,8 +84,26 @@ parquet::ArrowReaderProperties MakeArrowReaderProperties(
     auto column_index = metadata.schema()->ColumnIndex(name);
     properties.set_read_dictionary(column_index, true);
   }
-  properties.set_coerce_int96_timestamp_unit(
-      format.reader_options.coerce_int96_timestamp_unit);
+
+  // AMZN BEGIN
+  arrow::TimeUnit::type coerce_int96_timestamp_unit = format.reader_options.coerce_int96_timestamp_unit;
+  const char *coerce_int96_timestamp_unit_env_value = std::getenv("arrow_coerce_int96_timestamp_unit_override");
+  if (coerce_int96_timestamp_unit_env_value != nullptr) {
+      std::string_view value(coerce_int96_timestamp_unit_env_value);
+      if (value == std::string_view("SECOND")) {
+          coerce_int96_timestamp_unit = arrow::TimeUnit::SECOND;
+      } else if (value == std::string_view("MILLI")) {
+          coerce_int96_timestamp_unit = arrow::TimeUnit::MILLI;
+      } else if (value == std::string_view("MICRO")) {
+          coerce_int96_timestamp_unit = arrow::TimeUnit::MICRO;
+      } else if (value == std::string_view("NANO")) {
+          coerce_int96_timestamp_unit = arrow::TimeUnit::NANO;
+      }
+  }
+
+  properties.set_coerce_int96_timestamp_unit(coerce_int96_timestamp_unit);
+  // AMZN END
+
   return properties;
 }
 
